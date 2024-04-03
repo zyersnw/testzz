@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>post_add</title>
+    <style>
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        }
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* 작성자, 제목, 내용 디자인 부분 */
+        .form_size{
+            width: 500px;
+            margin-top: 50px;
+            text-align: center;
+        }
+        .form_size .username,
+        .form_size .title,
+        .form_size textarea {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form_size textarea {
+            height: 400px;
+        }
+        .post_button{
+            display: inline-block;
+            margin-top: 30px;
+            width: 30%;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h2>post add</h2>
+        <div>
+            <form action="{{url_for('post_add')}}" method="post" class="form_size" >
+                <input class="username" type="text" name="username" placeholder="작성자">
+                <br>
+                <br>
+                <input class = 'title' type="text" name="title" placeholder="제목을 입력해주세요">
+                <br>
+                <br>
+                <textarea class= 'content' name="content" placeholder="내용 입력"></textarea>
+                <br>
+                <button class="post_button" onClick="location.href='메인 페에지로 이동'">
+                    post_add
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

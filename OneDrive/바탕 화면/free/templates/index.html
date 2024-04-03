@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Free - write</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
+	<style>
+		@font-face {
+			font-family: 'continuous';
+			src: url('C:\Users\pc\AppData\Local\Microsoft\Windows\Fonts\continuous.otf');
+		}
+
+		@font-face {
+			font-family: 'InkLipquid';
+			src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/InkLipquid.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		body {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			height: 100vh;
+			/* 화면 전체 높이에 Navbar를 중앙으로 정렬합니다. */
+			background-image: url("paper-3155438_1280.jpg");
+			/* 이미지 경로는 실제 이미지 파일의 경로로 변경해야 합니다. */
+			background-size: cover;
+			/* 배경 이미지를 커버하도록 설정합니다. */
+			background-position: center;
+			/* 배경 이미지를 가운데로 정렬합니다. */
+		}
+
+		.container {
+			width: 100%;
+			/* Navbar를 화면 전체 너비로 설정합니다. */
+			position: fixed;
+			/* 화면 상단에 고정시킵니다. */
+			top: 0;
+			z-index: 1000;
+			/* 다른 요소 위에 표시될 수 있도록 설정합니다. */
+		}
+
+		.navbar {
+			font-family: 'continuous';
+			display: flex;
+			justify-content: center;
+			/* Navbar 요소를 가운데 정렬합니다. */
+			align-items: center;
+			padding: 40px 0;
+			/* 위아래로 약간의 여백 추가 */
+			/* border-bottom: 3px solid #ccc; */
+			/* Navbar 아래에 선 추가 */
+		}
+
+		.navbar-brand {
+			font-size: 100px;
+			/* Navbar 로고의 폰트 크기 설정 */
+			color: white;
+			text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+			/* 로고 색상 설정 */
+			text-decoration: none;
+			/* 밑줄 제거 */
+		}
+
+		.bttn {
+			display: flex;
+			width: 400%;
+			max-width: 1300px;
+			justify-content: flex-end;
+			text-align: right;
+			padding: 10px;
+		}
+
+		.btn {
+			font-family: 'InkLipquid';
+			font-size: 35px;
+			color: saddlebrown;
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+			text-decoration: none;
+		}
+
+		.board-list {
+			font-family: 'InkLipquid';
+			font-size: 40px;
+			color: white;
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 10px 0;
+			width: 400%;
+			max-width: 1300px;
+			margin: 0;
+			background-color: rgba(0, 0, 0, 0.2);
+			border-radius: 10px;
+			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+		}
+
+		.board-list th {
+			width: 1600px;
+			padding: 10px;
+			padding-right: 10px;
+		}
+
+		td {
+			text-align: center;
+		}
+		.comment-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    font-family: 'InkLipquid';
+    color: saddlebrown;
+}
+
+.comment-search input[type="text"], .comment-search select {
+    font-family: 'InkLipquid';
+    font-size: 20px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid saddlebrown;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.comment-search button {
+    font-family: 'InkLipquid';
+    font-size: 20px;
+    color: white;
+    background-color: saddlebrown;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+    cursor: pointer;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+    transition: background-color 0.3s ease;
+}
+
+.comment-search button:hover {
+    background-color: darkred;
+}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<nav class="navbar navbar-expand-lg">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="{{ url_for('home')}}">Free - write</a>
+			</div>
+		</nav>
+	</div>
+	<div class="bttn">
+		<a class="btn btn-primary" href="{{ url_for('post')}}" role="button">글쓰기</a>
+	</div>
+	<div class="board-list">
+		<table>
+			<caption style="font-size: 50px;">자유 게시판</caption>
+			<!-- <colgroup>
+				<col class="size01" data-alias="number">
+
+				<col class="size02" data-alias="subject">
+
+				<col class="size03" data-alias="writer">
+
+				<col class="size04" data-alias="date">
+
+				<col class="size05" data-alias="hit">
+
+				<col class="size06" data-alias="req">
+			</colgroup> -->
+			<thead>
+				<tr>
+					<th>번호</th>
+
+					<th>제목</th>
+
+					<th>글쓴이</th>
+
+					<th>등록일</th>
+
+					<th>조회</th>
+
+					<th>추천</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="">
+					<td class="num">
+						<span>1</span>
+					</td>
+
+					<td class="tit">
+						<div class="text-wrap">
+							<div>
+								<a href="{url_for('post')}">chugsoon</a>
+							</div>
+							<span data-opinion-bbs-comeidx="4811" data-opinion-bbs-uid="1" data-opinion-bbs-opi="6"
+								class="con-comment">[0]</span>
+						</div>
+					</td>
+
+					<td class="user">
+						<span class="layerNickName">cuty</span>
+					</td>
+
+					<td class="date">16:08</td>
+
+					<td class="view">0</td>
+
+					<td class="reco">0</td>
+				</tr>
+				<tr class="">
+					<td class="num">
+						<span>1</span>
+					</td>
+
+					<td class="tit">
+						<div class="text-wrap">
+							<div>
+								<a>chugsoon</a>
+							</div>
+							<span data-opinion-bbs-comeidx="4811" data-opinion-bbs-uid="1" data-opinion-bbs-opi="6"
+								class="con-comment">[0]</span>
+						</div>
+					</td>
+
+					<td class="user">
+						<span class="layerNickName">cuty</span>
+					</td>
+
+					<td class="date">16:08</td>
+
+					<td class="view">0</td>
+
+					<td class="reco">0</td>
+				</tr>
+				<tr class="">
+					<td class="num">
+						<span>1</span>
+					</td>
+
+					<td class="tit">
+						<div class="text-wrap">
+							<div>
+								<a>chugsoon</a>
+							</div>
+							<span data-opinion-bbs-comeidx="4811" data-opinion-bbs-uid="1" data-opinion-bbs-opi="6"
+								class="con-comment">[0]</span>
+						</div>
+					</td>
+
+					<td class="user">
+						<span class="layerNickName">cuty</span>
+					</td>
+
+					<td class="date">16:08</td>
+
+					<td class="view">0</td>
+
+					<td class="reco">0</td>
+				</tr>
+				<tr class="">
+					<td class="num">
+						<span>1</span>
+					</td>
+
+					<td class="tit">
+						<div class="text-wrap">
+							<div>
+								<a>chugsoon</a>
+							</div>
+							<span data-opinion-bbs-comeidx="4811" data-opinion-bbs-uid="1" data-opinion-bbs-opi="6"
+								class="con-comment">[0]</span>
+						</div>
+					</td>
+
+					<td class="user">
+						<span class="layerNickName">cuty</span>
+					</td>
+
+					<td class="date">16:08</td>
+
+					<td class="view">0</td>
+
+					<td class="reco">0</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br>
+
+	<div>
+<!-- 글 제목, 글 작성자, 댓글 내용, 댓글 작성자 검색 기능 -->
+<div class="comment-search">
+    <input type="text" id="commentSearchInput" placeholder="검색어 입력">
+    <select id="searchOption">
+        <option value="postTitle">글 제목</option>
+        <option value="postAuthor">글 작성자</option>
+        <option value="comment">댓글 내용</option>
+        <option value="author">댓글 작성자</option>
+    </select>
+    <button onclick="searchComments()">검색</button>
+</div>
+</div>
+</body>
+</html>
