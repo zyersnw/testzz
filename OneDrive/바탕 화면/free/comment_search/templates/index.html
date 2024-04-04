@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free - write</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'continuous';
+            src: url('C:\Users\pc\AppData\Local\Microsoft\Windows\Fonts\continuous.otf');
+        }
+
+        @font-face {
+            font-family: 'InkLipquid';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/InkLipquid.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-image: url("/static/paper-3155438_1280.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            font-family: 'continuous';
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+        }
+
+        .navbar-brand {
+            font-size: 100px;
+            color: white;
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+            text-decoration: none;
+        }
+
+        .bttn {
+            display: flex;
+            width: 400%;
+            max-width: 1300px;
+            justify-content: flex-end;
+            text-align: right;
+            padding: 10px;
+        }
+
+        .btn {
+            font-family: 'InkLipquid';
+            font-size: 35px;
+            color: saddlebrown;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+            text-decoration: none;
+        }
+
+        .board-list {
+            font-family: 'InkLipquid';
+            font-size: 40px;
+            color: white;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+            width: 400%;
+            max-width: 1300px;
+            margin: 0;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .board-list th {
+            width: 1600px;
+            padding: 10px;
+            padding-right: 10px;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        td a {
+            color: white;
+            text-decoration: none;
+        }
+
+        td a:hover {
+            color: rgb(183, 135, 57);
+            font-weight: bold;
+        }
+
+        .comment-search {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            font-family: 'InkLipquid';
+            color: saddlebrown;
+        }
+
+        .comment-search input[type="text"],
+        .comment-search select {
+            font-family: 'InkLipquid';
+            font-size: 20px;
+            padding: 5px 10px;
+            margin-right: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid saddlebrown;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .comment-search button {
+            font-family: 'InkLipquid';
+            font-size: 20px;
+            color: white;
+            background-color: saddlebrown;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 15px;
+            cursor: pointer;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+            transition: background-color 0.3s ease;
+        }
+
+        .comment-search button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url_for('home')}}">Free - write</a>
+            </div>
+        </nav>
+    </div>
+    <div class="bttn">
+        <a class="btn btn-primary" href="{{ url_for('post_add')}}" role="button">글쓰기</a>
+    </div>
+    <div class="board-list">
+        <table>
+            <caption style="font-size: 50px;">자유 게시판</caption>
+            <thead>
+                <tr>
+                    <th>번호</th>
+
+                    <th>제목</th>
+
+                    <th>글쓴이</th>
+
+                    <th>내용</th>
+
+                    <th>등록일</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% if posts %}
+                {% for i in range(0, ids|length) %}
+                <tr>
+                    <td>{{ ids[i] }}</td>
+                    <td><a href="{{url_for('comment_add', post_id=ids[i])}}">{{ subjects[i] }}</a></td>
+                    <td>{{ usernames[i] }}</td>
+                    <td>{{ contents[i][0:10] }}</td>
+                    <td>{{ create_dates[i].strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <td>게시글이 없습니다.</td>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+ <!-- 글 제목, 글 작성자, 댓글 내용, 댓글 작성자 검색 기능 -->
+ <div class="comment-search">
+	<input type="text" id="commentSearchInput" placeholder="검색어 입력">
+	<select id="searchOption">
+		<option value="postTitle">글 제목</option> <!-- 수정 -->
+		<option value="postAuthor">글 작성자</option> <!-- 수정 -->
+		<option value="commentContent">댓글 내용</option> <!-- 수정 -->
+		<option value="commentAuthor">댓글 작성자</option> <!-- 수정 -->
+	</select>
+	<button onclick="searchComments()">검색</button>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script> <!-- 추가 -->
+</body>
+
+</html>
