@@ -113,10 +113,6 @@ def search_comments():
             posts = Post.query.filter(Post.subject.like('%{}%'.format(search_input))).all()
         elif search_option == 'postAuthor':
             posts = Post.query.filter(Post.username.like('%{}%'.format(search_input))).all()
-        elif search_option == 'commentContent':
-            answers = Answer.query.filter(Answer.content.like('%{}%'.format(search_input))).all()
-        elif search_option == 'commentAuthor':
-            answers = Answer.query.filter(Answer.username.like('%{}%'.format(search_input))).all()
         
         return render_template('index.html', posts=posts, answers=answers)
 

@@ -14,10 +14,6 @@
                 targetCell = row.getElementsByTagName('td')[1]; // 글 제목 열
             } else if (option === 'postAuthor') {
                 targetCell = row.getElementsByTagName('td')[2]; // 글 작성자 열
-            } else if (option === 'commentContent') {
-                targetCell = row.getElementsByTagName('td')[3]; // 댓글 내용 열
-            } else if (option === 'commentAuthor') {
-                targetCell = row.getElementsByTagName('td')[4]; // 댓글 작성자 열
             }
 
             // 검색 대상 열이 존재하고 입력한 검색어와 일치하지 않으면 해당 행을 숨깁니다.
