@@ -1,12 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponseForbidden
 from django.conf import settings
 import requests
+from urllib.parse import quote
 
 API_KEY = settings.RIOT_API_KEY
 
-def get_summoner_id(api_key, summoner_name,):
-    url = f'https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}'
+def get_summoner_id(api_key, summoner_name):
+    summoner_name_encoded = quote(summoner_name)
+    url = f'https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name_encoded}'
     response = requests.get(url, headers={'X-Riot-Token': api_key})
     response.raise_for_status()
     return response.json().get('id')
@@ -23,7 +24,7 @@ def get_match_details(api_key, match_id):
     response.raise_for_status()
     return response.json()
 
-def calculate_troll_score(participant_stats, team_stats, match_details, participant_id):
+def calculate_troll_score(participant_stats, team_stats, match_details):
     kda = (participant_stats['kills'] + participant_stats['assists']) / (participant_stats['deaths'] or 1)
     cs = participant_stats['totalMinionsKilled'] + participant_stats.get('neutralMinionsKilled', 0)
     gold = participant_stats['goldEarned']
@@ -66,7 +67,7 @@ def calculate_troll_score(participant_stats, team_stats, match_details, particip
 
 def troll_identifier(request):
     if request.method == 'POST':
-        summoner_name = request.POST.get('summoner_name')  # 사용자가 입력한 소환사 이름
+        summoner_name = request.POST.get('summoner_name')
         try:
             summoner_id = get_summoner_id(API_KEY, summoner_name)
             matchlist = get_recent_matchlist(API_KEY, summoner_id)
@@ -78,7 +79,7 @@ def troll_identifier(request):
             participant_id = next(p['participantId'] for p in match_details['participantIdentities'] if p['player']['summonerId'] == summoner_id)
             participant_stats = next(p['stats'] for p in match_details['participants'] if p['participantId'] == participant_id)
             team_stats = [p['stats'] for p in match_details['participants'] if p['teamId'] == participant_stats['teamId']]
-            troll_score = calculate_troll_score(participant_stats, team_stats, match_details, participant_id)
+            troll_score = calculate_troll_score(participant_stats, team_stats, match_details)
             if troll_score >= 50:
                 result_message = f"{summoner_name} 님은 트롤일 가능성이 높습니다."
             else:

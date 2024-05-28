@@ -14,12 +14,13 @@
         <button type="submit">검색</button>
     </form>
     {% if result_message %}
-        <h2>Result:</h2>
+        <h2>결과:</h2>
         <p>{{ result_message }}</p>
     {% endif %}
     {% if error_message %}
-        <h2>Error:</h2>
+        <h2>오류:</h2>
         <p>{{ error_message }}</p>
     {% endif %}
 </body>
 </html>
+
